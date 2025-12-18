@@ -1,0 +1,83 @@
+
+body {
+	cursor: url('images/Kpcursor_small.png'), auto;
+	background-color: cadetblue;
+	font-family:  vipnagorgialla;
+	height: 95vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#menu {
+	width: 400px;
+	position: fixed;
+	top:20px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	left: 0;
+	z-index: 2000;
+}
+
+a {
+		color: lightgreen;
+}
+
+img {
+	width: 1800px;
+	position: fixed;
+	/* Start position for animation */
+	top: 100vh;
+	left: 50%;
+	transform: translateX(-50%) scale(0.1);
+	animation: flyUp 4s forwards ease-out;
+} 
+
+@keyframes flyUp {
+	0% {
+		top: 100vh;
+		transform: translateX(-50%) scale(0.1);
+		opacity: 1;
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		top: -150vh;
+		transform: translateX(-50%) scale(1.5);
+		opacity: 0;
+	}
+}
+
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+.spinning {
+	animation: spin 0.5s linear infinite;
+}
+
+
+#letter-container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 20px;
+
+}
+
+.letters {
+	font-size: 200px;
+	opacity: 0; /* Initially hidden */
+	transition: opacity 2s ease-in;
+}
+
+.letters.visible {
+	opacity: 1;
+	position: relative;
+	z-index: 101;
+}
+
+

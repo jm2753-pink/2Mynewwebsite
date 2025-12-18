@@ -1,0 +1,252 @@
+
+
+body { 
+		cursor: url('images/Kpcursor_small.png'), auto;
+		height: 100vh;
+		background-color: black;
+       font-family: 'Vipnagorgialla', sans-serif;                                         
+		 display: flex;
+		 justify-content: center;
+		 align-items: center;
+
+		background-image: url('images/kimphomepage2edit1.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		background-attachment: fixed;
+
+		}
+
+.menu {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+
+ .menu a{
+ 	color: hotpink;
+ 	text-decoration: none;
+ 	text-aline: center;
+ }
+
+ .menu a:hover{
+ 	background-color: lightgrey;
+ }
+ 
+
+a {
+		color: lightgreen;
+}
+
+#background {
+	position: fixed;
+	height: 100vh;
+
+}
+
+h1	{
+	 font-family: Vipnagorgialla, sans-serif;
+	 font-size: 120px;
+	 text-align: center;
+	 letter-spacing: -8px;
+	 line-height: 130px;
+	}
+
+p {font-family: Futura, sans-serif;
+   font-size: 30px;
+   text-align: center;
+   word-spacing: -2px;
+   color: lightgreen;
+}
+
+.VipnagorgiallaRegular {
+	color: hotpink;
+	font-size: 150px;
+	text-align: center;
+}
+
+
+.VipnagorgiallaRegular:hover {
+	display: block;
+	color: hotpink;
+	text-shadow: 10px 1px #27F568;
+	font-size: 150px;
+	animation: fadeIn 2s infinite;
+}
+
+@keyframes fadeIn {
+		0% {opacity: 1;}
+		50% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
+
+body { 
+		height: 100vh;
+		background-color: black;
+       font-family: 'Vipnagorgialla', sans-serif;                                         
+		 display: flex;
+		 justify-content: center;
+		 align-items: center;
+
+		background-image: url('images/kimphomepage2edit1.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		background-attachment: fixed;
+
+		}
+
+.menu {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+
+ .menu a{
+ 	color: hotpink;
+ 	text-decoration: none;
+ 	text-aline: center;
+ }
+
+ .menu a:hover{
+ 	background-color: lightgrey;
+ }
+ 
+
+a {
+		color: lightgreen;
+}
+
+#background {
+	position: fixed;
+	height: 100vh;
+
+}
+
+h1	{
+	 font-family: Vipnagorgialla, sans-serif;
+	 font-size: 120px;
+	 text-align: center;
+	 letter-spacing: -8px;
+	 line-height: 130px;
+	}
+
+p {font-family: Futura, sans-serif;
+   font-size: 30px;
+   text-align: center;
+   word-spacing: -2px;
+   color: lightgreen;
+}
+
+.VipnagorgiallaRegular {
+	color: hotpink;
+	font-size: 150px;
+	text-align: center;
+}
+
+
+.VipnagorgiallaRegular:hover {
+	display: block;
+	color: hotpink;
+	text-shadow: 10px 1px #27F568;
+	font-size: 150px;
+	animation: fadeIn 2s infinite;
+}
+
+@keyframes fadeIn {
+		0% {opacity: 1;}
+		50% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
+
+/* Clash container - positions the letters */
+.clash-container {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: visible;
+}
+
+/* Base letter styling - larger size */
+.letter {
+	position: absolute;
+	font-size: 160px;
+	font-weight: bold;
+	font-family: 'Vipnagorgialla', sans-serif;
+	pointer-events: none;
+	z-index: 1001;
+	line-height: 1;
+}
+
+/* Blue letter - moves from left side */
+.letter-left {
+	color: #007bff; /* Blue */
+	text-shadow: 0 0 5px #007bff, 0 0 15px #007bff;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: clashLeft 5s infinite ease-in-out;
+}
+
+/* Green letter - moves from right side */
+.letter-right {
+	color: #28a745; /* Green */
+	text-shadow: 0 0 5px #28a745, 0 0 15px #28a745;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: clashRight 5s infinite ease-in-out;
+}
+
+/* Animation for blue letter - moves from left to center, then to corners */
+@keyframes clashLeft {
+	0% {
+		transform: translate(calc(-50vw - 280px), -250px) rotate(0deg);
+	}
+	25% {
+		transform: translate(calc(-50% - 80px), -250px) rotate(-25deg) scale(1.2); /* Clash at top center with green */
+	}
+	50% {
+		transform: translate(calc(50vw - 280px), -250px) rotate(30deg) scale(1.2); /* Clash at top-right corner */
+	}
+	75% {
+		transform: translate(calc(-50vw + 120px), -250px) rotate(-30deg) scale(1.2); /* Clash at top-left corner */
+	}
+	100% {
+		transform: translate(calc(-50vw - 280px), -250px) rotate(0deg);
+	}
+}
+
+/* Animation for green letter - moves from right to center, then to corners */
+@keyframes clashRight {
+	0% {
+		transform: translate(calc(50vw + 120px), -250px) rotate(0deg);
+	}
+	25% {
+		transform: translate(calc(-50% - 80px), -250px) rotate(25deg) scale(1.2); /* Clash at top center with blue */
+	}
+	50% {
+		transform: translate(calc(-50vw + 120px), -250px) rotate(-30deg) scale(1.2); /* Clash at top-left corner */
+	}
+	75% {
+		transform: translate(calc(50vw - 280px), -250px) rotate(30deg) scale(1.2); /* Clash at top-right corner */
+	}
+	100% {
+		transform: translate(calc(50vw + 120px), -250px) rotate(0deg);
+	}
+}

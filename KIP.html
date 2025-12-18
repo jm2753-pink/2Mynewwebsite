@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Kim Possbible</title>
+
+	<link rel="stylesheet" type="text/css" href="style-p5.css">
+
+	<style> @import url('https://fonts.cdnfonts.com/css/vipnagorgialla'); </style>
+
+</head>
+<body>
+
+<div class="menu">
+	<li><a href="index.html">Vipnagorgialla</a>
+	<li><a href="kpossibp2(1).html">About</a>
+	<li><a href="kkps(1).html">Interactive</a>
+	<li><a href="KPW(1).html">Letters</a>
+</div>
+
+<!-- Page Title -->
+<h1 id="page-title">Double Life</h1>
+
+<!-- Right side image container with two stacked images -->
+<div class="image-right" id="image-toggle">
+	<img id="kim-cheer" src="images/cheerleader2.png" alt="Kim cheerleader">
+	<img id="kim-kick" src="images/kimkick2.png" alt="Kim kicking">
+</div>
+
+<!-- Falling letters container -->
+<div id="falling-letters-container"></div>
+
+<!-- Pink glowing border -->
+<div id="glowing-border"></div>
+
+<!-- Lockers images container -->
+<div id="lockers-container">
+	<img id="lockers-base" src="images/lockers.png" alt="Lockers">
+	<img id="locker-1" src="images/firstopenlocker.png" alt="First open locker" style="display: none;">
+	<img id="locker-2" src="images/second2openlocker.png" alt="Second open locker" style="display: none;">
+	<img id="locker-3" src="images/thirdopenlocker.png" alt="Third open locker" style="display: none;">
+	<img id="locker-4" src="images/fourthopenlocker.png" alt="Fourth open locker" style="display: none;">
+</div>
+
+<script>   document.addEventListener('DOMContentLoaded', function () {
+        const img1 = document.getElementById('kim-cheer');
+        const img2 = document.getElementById('kim-kick');
+
+        const container = document.getElementById('image-toggle');
+        img1.style.display = 'block';
+        img2.style.display = 'none';    
+
+    	container.addEventListener('click', function () { 
+    	if (img1.style.display === 'none') {
+    	img1.style.display = 'block';        
+    	img2.style.display = 'none';     
+     } else {        
+     	img1.style.display = 'none';        
+     	img2.style.display = 'block';      
+     	}   
+     });  
+
+     // Falling letters animation
+     const letters = ['J', 'y', 'L', 'R', 'F', 'H', 'n', 'S', 'z', 'M', 'd', 'X', 'k', 'o'];
+     const fontWeights = ['bold', '100', 'normal', 'bold', 'normal', '100', 'bold', 'normal', '100', 'bold', 'normal', '100', 'bold', 'normal'];
+     const containerEl = document.getElementById('falling-letters-container');
+     const viewportWidth = window.innerWidth;
+     const viewportHeight = window.innerHeight;
+     const startX = viewportWidth / 2 + 100; // Middle of page, moved right
+     const startY = 200; // Starting point (moved down)
+     const endY = viewportHeight - 180; // Near bottom (moved up)
+     const endX = 380; // Left side (moved right more)
+     
+     // Pyramid stacking positions
+     const pyramidPositions = [];
+     const numLetters = letters.length;
+     const letterSize = 75;
+     const spacing = 5;
+     
+     // Calculate pyramid positions (centered at bottom left)
+     // Pyramid structure: 2, 4, 3, 3, 1, 1 (rows from bottom to top) - 14 letters total
+     const pyramidRows = [2, 4, 3, 3, 1, 1]; // Bottom to top
+     let letterIndex = 0;
+     let currentY = endY;
+     
+     for (let row = 0; row < pyramidRows.length && letterIndex < numLetters; row++) {
+         const lettersInRow = pyramidRows[row];
+         const rowWidth = (lettersInRow - 1) * (letterSize + spacing);
+         const startX = endX - rowWidth / 2;
+         
+         for (let i = 0; i < lettersInRow && letterIndex < numLetters; i++) {
+             const x = startX + i * (letterSize + spacing);
+             pyramidPositions.push({ x: x, y: currentY });
+             letterIndex++;
+         }
+         currentY -= letterSize + spacing;
+     }
+     
+     letters.forEach((letter, index) => {
+         const letterEl = document.createElement('div');
+         letterEl.className = 'falling-letter';
+         letterEl.textContent = letter;
+         letterEl.style.fontSize = '60px';
+         letterEl.style.fontWeight = fontWeights[index];
+         letterEl.style.color = 'hotpink';
+         letterEl.style.position = 'absolute';
+         letterEl.style.left = startX + 'px';
+         letterEl.style.top = startY + 'px';
+         letterEl.style.opacity = '0';
+         letterEl.style.transition = 'opacity 0.3s';
+         
+         containerEl.appendChild(letterEl);
+         
+         // Animate falling
+         setTimeout(() => {
+             letterEl.style.opacity = '1';
+             letterEl.style.transition = `all ${2 + index * 0.2}s ease-in`;
+             letterEl.style.left = pyramidPositions[index].x + 'px';
+             letterEl.style.top = pyramidPositions[index].y + 'px';
+         }, index * 200);
+     });
+     
+     // Create pink glowing border around letters and image
+     const borderEl = document.getElementById('glowing-border');
+     const imageEl = document.getElementById('image-toggle');
+     
+     // Calculate border dimensions to encompass both letters and image
+     // Letters area: from left edge (around 50px) to center, from startY (200) to endY
+     // Image area: right side, from top 150px
+     const borderLeft = 30; // Left edge (letters area with padding)
+     const borderRight = viewportWidth - 20; // Right edge (image area with padding)
+     const borderTop = 120; // Top edge (above image start)
+     const borderBottom = viewportHeight - 50; // Bottom edge (below letters)
+     
+     borderEl.style.left = borderLeft + 'px';
+     borderEl.style.top = borderTop + 'px';
+     borderEl.style.width = (borderRight - borderLeft) + 'px';
+     borderEl.style.height = (borderBottom - borderTop) + 'px';
+     
+     // Position lockers container and images below the glowing border (scrollable content)
+     const lockersContainer = document.getElementById('lockers-container');
+     const lockersBase = document.getElementById('lockers-base');
+     const locker1 = document.getElementById('locker-1');
+     const locker2 = document.getElementById('locker-2');
+     const locker3 = document.getElementById('locker-3');
+     const locker4 = document.getElementById('locker-4');
+     
+     // Position container - absolute positioning for scrollable content
+     lockersContainer.style.position = 'absolute';
+     lockersContainer.style.left = '50%';
+     lockersContainer.style.transform = 'translateX(-50%)';
+     lockersContainer.style.top = (borderBottom + 80) + 'px';
+     lockersContainer.style.maxWidth = '80%';
+     lockersContainer.style.width = '100%';
+     lockersContainer.style.height = 'auto';
+     lockersContainer.style.zIndex = '30';
+     lockersContainer.style.cursor = 'pointer';
+     
+     // Position all images to overlap exactly (stacked behind lockers-base)
+     // Make container relative so absolute children position relative to it
+     lockersContainer.style.position = 'relative';
+     lockersContainer.style.display = 'inline-block';
+     
+     // Wrap container in an absolutely positioned div for proper placement
+     const wrapper = document.createElement('div');
+     wrapper.style.position = 'absolute';
+     wrapper.style.left = '50%';
+     wrapper.style.transform = 'translateX(-50%)';
+     wrapper.style.top = (borderBottom + 80) + 'px';
+     wrapper.style.maxWidth = '80%';
+     wrapper.style.width = '100%';
+     wrapper.style.zIndex = '30';
+     wrapper.style.cursor = 'pointer';
+     
+     lockersContainer.parentNode.insertBefore(wrapper, lockersContainer);
+     wrapper.appendChild(lockersContainer);
+     
+     // Position all images absolutely within the relative container so they stack exactly
+     // All images will be set to the same size
+     [lockersBase, locker1, locker2, locker3, locker4].forEach((img) => {
+         img.style.position = 'absolute';
+         img.style.top = '0';
+         img.style.left = '0';
+         img.style.width = '100%';
+         img.style.height = 'auto';
+         img.style.maxWidth = '100%';
+         img.style.transform = 'none'; // Ensure no transforms affect positioning
+     });
+     
+     // Sync all images to the same size as the base image after it loads
+     function syncImageSizes() {
+         // Wait for base image to have dimensions
+         if (lockersBase.offsetWidth > 0 && lockersBase.offsetHeight > 0) {
+             const targetWidth = lockersBase.offsetWidth;
+             const targetHeight = lockersBase.offsetHeight;
+             // Set all other images to match base image dimensions
+             [locker1, locker2, locker3, locker4].forEach((img) => {
+                img.style.width = targetWidth + 'px';
+                img.style.height = targetHeight + 'px';
+                img.style.objectFit = 'contain'; // Maintain aspect ratio, fit within bounds
+                
+                if (img === locker1) {
+                    img.style.transform = 'translate(-75px, -55px) scale(1.2)';
+                }
+            });
+         }
+     }
+     
+     // Base image should be visible initially, others hidden
+     lockersBase.style.display = 'block';
+     lockersBase.style.zIndex = '11'; // On top
+     locker1.style.display = 'none';
+     locker2.style.display = 'none';
+     locker3.style.display = 'none';
+     locker4.style.display = 'none';
+     
+     // Set container height based on base image to prevent collapse
+     function setContainerHeight() {
+         if (lockersBase.offsetHeight > 0) {
+             lockersContainer.style.height = lockersBase.offsetHeight + 'px';
+         }
+     }
+     
+     // Ensure body has enough height for full page scrolling (top to bottom)
+     // Calculate full page height including lockers and extra space
+     function setBodyHeight() {
+         // Use wrapper or container height, fallback to image dimensions
+         const lockersHeight = wrapper.offsetHeight || lockersContainer.offsetHeight || lockersBase.offsetHeight || 400;
+         const lockersTop = borderBottom + 80;
+         const fullPageHeight = Math.max(
+             viewportHeight * 1.5, // At least 1.5x viewport height for scrolling
+             lockersTop + lockersHeight + 400 // Content height + extra padding to scroll past
+         );
+         document.body.style.minHeight = fullPageHeight + 'px';
+         document.documentElement.style.minHeight = fullPageHeight + 'px';
+     }
+     
+     // Set height and sync sizes when base image loads
+     lockersBase.onload = function() {
+         setContainerHeight();
+         setTimeout(function() {
+             syncImageSizes();
+             setBodyHeight();
+         }, 100); // Small delay to ensure layout is complete
+     };
+     
+     // Set initial height - use generous values to ensure scrollability
+     if (lockersBase.complete) {
+         setContainerHeight();
+         setTimeout(syncImageSizes, 100);
+     }
+     setTimeout(function() {
+         syncImageSizes();
+         setBodyHeight();
+     }, 200);
+     
+     // Also set a minimum initial height immediately to allow scrolling right away
+     document.body.style.minHeight = Math.max(viewportHeight * 1.5, borderBottom + 1000) + 'px';
+     document.documentElement.style.minHeight = Math.max(viewportHeight * 1.5, borderBottom + 1000) + 'px';
+     
+     // Track current image index (0 = base, 1-4 = open lockers)
+     let currentImageIndex = 0;
+     const images = [lockersBase, locker1, locker2, locker3, locker4];
+     
+     // Click handler to cycle through images (unlimited clicks)
+     wrapper.addEventListener('click', function() {
+         // Hide current image
+         images[currentImageIndex].style.display = 'none';
+         
+         // Move to next image (cycle: base -> 1 -> 2 -> 3 -> 4 -> 1 -> 2 -> ...)
+         if (currentImageIndex === 0) {
+             // From base, go to first open locker
+             currentImageIndex = 1;
+         } else if (currentImageIndex === 4) {
+             // From fourth, cycle back to first
+             currentImageIndex = 1;
+         } else {
+             // Otherwise, go to next
+             currentImageIndex++;
+         }
+         
+         // Show new image
+         images[currentImageIndex].style.display = 'block';
+     });
+ });
+</script>
+
+
+
+</body>
+</html>

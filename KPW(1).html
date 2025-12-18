@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Letters</title>
+
+	<link rel="stylesheet" type="text/css" href="style-p3(1).css">
+
+	<style>
+		@import url('https://fonts.cdnfonts.com/css/vipnagorgialla');
+		
+		#nachos-container {
+			position: fixed;
+			top: 10%;
+			left: 20%;
+			transform: translate(-50%, -50%);
+			z-index: 100;
+			display: none;
+			pointer-events: none;
+		}
+		
+		#nachos-container img {
+			width: auto;
+			height: auto;
+			max-width: 160vw;
+			max-height: 160vh;
+			position: static;
+			animation: none;
+			transform: rotate(90deg);
+		}
+
+		#shego-container {
+			position: fixed;
+			top: 50%;
+			left: 70%;
+			transform: translate(-50%, -50%);
+			z-index: 102;
+			display: none;
+			pointer-events: none;
+		}
+		
+		#shego-container img {
+			width: auto;
+			height: auto;
+			max-width: 80vw;
+			max-height: 80vh;
+			position: static;
+			animation: none;
+			transform: scale(1.5);
+		}
+
+		#draken-container {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 102;
+			display: none;
+			pointer-events: none;
+		}
+		
+		#draken-container img {
+			width: auto;
+			height: auto;
+			max-width: 80vw;
+			max-height: 80vh;
+			position: static;
+			animation: none;
+			transform: scale(1.2);
+		}
+	</style>
+
+ <img src="images/newjetpackful(1).png" style="animation-play-state: paused;">
+ <audio id="jetpackAudio" src="audio/jetpackloop.mp3" preload="auto"></audio>
+ 
+ <div id="start-overlay" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Vipnagorgialla', sans-serif; font-size: 2em; z-index: 1000; cursor: pointer; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+ 	Click to Launch
+ </div>
+ 
+ <!-- Nachos image container (initially hidden) -->
+ <div id="nachos-container">
+ 	<img src="images/nachos.png" alt="Nachos">
+ </div>
+
+ <!-- Shego image container (initially hidden) -->
+ <div id="shego-container">
+ 	<img src="images/Shego.png" alt="Shego">
+ </div>
+
+ <!-- Draken image container (initially hidden) -->
+ <div id="draken-container">
+ 	<img src="images/Dr.Draken.png" alt="Dr.Draken">
+ </div>
+
+
+
+</head>
+<body>
+
+<div id="menu">
+	<a href="KIP.html">Kim Possible</a>
+	<a href="index.html">Vipnagorgialla</a>
+	<a href="kpossibp2(1).html">About</a>
+	<a href="kkps(1).html">Interactive</a>
+</div>
+
+
+  <div id="letter-container">
+  		<div class="letters">A</div>
+  		<div class="letters">B</div>
+  		<div class="letters">C</div>
+  		<div class="letters">D</div>
+  		<div class="letters">E</div>
+  		<div class="letters">F</div>
+  		<div class="letters">G</div>
+  		<div class="letters">H</div>
+  		<div class="letters">I</div>
+  		<div class="letters">J</div>
+  		<div class="letters">K</div>
+  		<div class="letters">L</div>
+  		<div class="letters">M</div>
+  		<div class="letters">N</div>
+  		<div class="letters">O</div>
+  		<div class="letters">P</div>
+  		<div class="letters">Q</div>
+  		<div class="letters">R</div>
+  		<div class="letters">S</div>
+  		<div class="letters">T</div>
+  		<div class="letters">U</div>
+  		<div class="letters">V</div>
+  		<div class="letters">W</div>
+  		<div class="letters">X</div>
+  		<div class="letters">Y</div>
+  		<div class="letters">Z</div>
+  </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const img = document.querySelector('img[src*="newjetpackful"]'); // Be specific to avoid other images
+		const letters = document.querySelectorAll('.letters');
+		const jetpackAudio = document.getElementById('jetpackAudio');
+		const startOverlay = document.getElementById('start-overlay');
+		
+		// Function to start animation and audio
+		const startAnimation = () => {
+			if (startOverlay) startOverlay.style.display = 'none';
+			
+			// Start animation
+			img.style.animationPlayState = 'running';
+			
+			// Start audio
+			jetpackAudio.currentTime = 0;
+			jetpackAudio.play().catch(e => console.log("Audio play failed:", e));
+		};
+
+		// Add click listener to start
+		document.addEventListener('click', function start() {
+			startAnimation();
+			document.removeEventListener('click', start);
+		}, { once: true });
+		
+		// When the image finishes flying up
+		img.addEventListener('animationend', function() {
+			// Stop the audio
+			jetpackAudio.pause();
+			jetpackAudio.currentTime = 0;
+
+			// Hide the image completely
+			img.style.display = 'none';
+
+			// Make letters spin and fade in
+			letters.forEach(letter => {
+				letter.classList.add('visible');
+				letter.classList.add('spinning');
+			});
+			
+			// Stop spinning after 3 seconds
+			setTimeout(function() {
+				letters.forEach(letter => {
+					letter.classList.remove('spinning');
+					
+					// Add click handler to letter J specifically
+					if (letter.textContent.trim() === 'J') {
+						letter.style.cursor = 'pointer'; // Show it's clickable
+						letter.addEventListener('click', function() {
+							const container = document.getElementById('nachos-container');
+							if (container.style.display === 'block') {
+								container.style.display = 'none';
+							} else {
+								container.style.display = 'block';
+							}
+						});
+					}
+
+					// Add click handler to letter S specifically
+					if (letter.textContent.trim() === 'S') {
+						letter.style.cursor = 'pointer'; // Show it's clickable
+						letter.addEventListener('click', function() {
+							const container = document.getElementById('shego-container');
+							if (container.style.display === 'block') {
+								container.style.display = 'none';
+							} else {
+								container.style.display = 'block';
+							}
+						});
+					}
+
+					// Add click handler to letter O specifically
+					if (letter.textContent.trim() === 'O') {
+						letter.style.cursor = 'pointer'; // Show it's clickable
+						letter.addEventListener('click', function() {
+							const container = document.getElementById('draken-container');
+							if (container.style.display === 'block') {
+								container.style.display = 'none';
+							} else {
+								container.style.display = 'block';
+							}
+						});
+					}
+				});
+			}, 3000);
+		});
+	});
+</script>
+	
+
+
+	
+
+	 
